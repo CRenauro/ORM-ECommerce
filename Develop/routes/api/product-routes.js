@@ -56,8 +56,10 @@ router.get('/:id', (req, res) => {
 
 // create new product
 router.post('/', (req, res) => {
+  console.log("NEW PRODUCT: " + JSON.stringify(req.body.price));
   Product.create(req.body)
     .then((product) => {
+      console.log(`product in .then method: ${product}`);
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
       if (req.body.tagIds.length) {
         const productTagIdArr = req.body.tagIds.map((tag_id) => {
@@ -126,7 +128,7 @@ router.delete('/:id', (req, res) => { // delete one product by its `id` value
       id: req.params.id
     }
   })
-    .then(productdata => {
+    .then(productData => {
       if (!productData) {
         res.status(404).json({ message: 'No product found with that ID'});
         return;
